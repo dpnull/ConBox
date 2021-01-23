@@ -10,9 +10,6 @@ namespace ConBox
             UIManager UIManager = new UIManager();
 
             // First frame, different color for debugging purposes
-            Console.CursorVisible = false;
-            UIManager.Init();
-            UIManager.Render();
 
             while (gameOn)
             {

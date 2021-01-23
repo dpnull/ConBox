@@ -7,6 +7,8 @@ namespace ConBox
 {
     public class ConWindow
     {
+        public bool DynamicSize = true;
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; } 
@@ -19,6 +21,7 @@ namespace ConBox
         public ConsoleColor BackgroundColor { get; set; }
         public ConsoleColor ForegroundColor { get; set; }
         public ConsoleColor TitleColor { get; set; }
+
 
 
         /// <summary>
@@ -330,6 +333,23 @@ namespace ConBox
 
         }
 
+        public void Reposition(int x, int y)
+        {
+            if (x < 0)
+            {
+                throw new ArgumentException("X must be greater than -1");
+            }
+            if (y < 0)
+            {
+                throw new ArgumentException("Y must be greater than -1");
+            }
+
+            X = x;
+            Y = y;
+
+        }
+
+
         /// <summary>
         /// Relocate the window.
         /// </summary>
@@ -350,12 +370,15 @@ namespace ConBox
             Y = y;
         }
 
+
+
         /// <summary>
         /// Draw the window border.
         /// </summary>
         /// <returns></returns>
         public int Draw()
         {
+
             int result = 0;
             int x = X;
             int y = Y;
