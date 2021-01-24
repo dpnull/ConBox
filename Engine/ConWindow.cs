@@ -7,8 +7,6 @@ namespace ConBox
 {
     public class ConWindow
     {
-        public bool DynamicSize = true;
-
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; } 
@@ -21,8 +19,6 @@ namespace ConBox
         public ConsoleColor BackgroundColor { get; set; }
         public ConsoleColor ForegroundColor { get; set; }
         public ConsoleColor TitleColor { get; set; }
-
-
 
         /// <summary>
         /// Available border types for the window
@@ -133,6 +129,9 @@ namespace ConBox
             TitleColor = BorderColor;
         }
 
+        /// <summary>
+        /// Change the background color of the window.
+        /// </summary>
         public void DrawBackground()
         {
             Console.BackgroundColor = BackgroundColor;
@@ -263,7 +262,6 @@ namespace ConBox
             
         }
 
-
         /// <summary>
         /// Currently obsolete.
         /// </summary>
@@ -333,6 +331,11 @@ namespace ConBox
 
         }
 
+        /// <summary>
+        /// Reposition the console window on the x and y axis.
+        /// </summary>
+        /// <param name="x">The new x coordinate.</param>
+        /// <param name="y">The new y coordinate.</param>
         public void Reposition(int x, int y)
         {
             if (x < 0)
@@ -348,7 +351,6 @@ namespace ConBox
             Y = y;
 
         }
-
 
         /// <summary>
         /// Relocate the window.
@@ -369,8 +371,6 @@ namespace ConBox
             X = x;
             Y = y;
         }
-
-
 
         /// <summary>
         /// Draw the window border.

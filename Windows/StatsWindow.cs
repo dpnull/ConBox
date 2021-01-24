@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConBox.Models;
 
 namespace ConBox.Windows
 {
@@ -14,6 +15,18 @@ namespace ConBox.Windows
             Width = width;
             Height = height;
             Border = border;
+        }
+
+        public void PrintStats(Player player)
+        {
+            string stats =
+                $"Name: {player.Name} | " +
+                $"Health: {player.Health} | " +
+                $"Gold: {player.Gold} | " +
+                $"Level: {player.Level} | " +
+                $"Exp: {player.Experience}";
+
+            Print(1, 0, stats);
         }
     }
 }

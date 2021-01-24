@@ -9,13 +9,9 @@ namespace ConBox
         {
             UIManager UIManager = new UIManager();
 
-            // First frame, different color for debugging purposes
-
             while (gameOn)
             {
-                // Temporary set cursor position fix
                 Console.CursorVisible = false;
-                Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(0, 0);
                 UIManager.Render();
             }

@@ -65,6 +65,11 @@ namespace ConBox.Windows
         public int InventoryWidth;
         public int InventoryHeight;
 
+        public int MessageX;
+        public int MessageY;
+        public int MessageWidth;
+        public int MessageHeight;
+
         public Parameters()
         {
             Recalculate();
@@ -91,14 +96,19 @@ namespace ConBox.Windows
             LocationHeight = 4;
 
             TravelX = 0;
-            TravelY = StatsY;
+            TravelY = StatsHeight;
             TravelWidth = ConsoleWidth - BindingsWidth;
             TravelHeight = 8;
 
             InventoryX = 0;
-            InventoryY = StatsY;
+            InventoryY = StatsHeight;
             InventoryWidth = ConsoleWidth - BindingsWidth;
             InventoryHeight = 8;
+
+            MessageWidth = ConsoleWidth - BindingsWidth;
+            MessageHeight = 8;
+            MessageX = 0;
+            MessageY = ConsoleHeight - MessageHeight;
         }
 
     }

@@ -17,7 +17,8 @@ namespace ConBox
             StatsWindow,
             LocationWindow,
             BindingsWindow,
-            InventoryWindow
+            InventoryWindow,
+            MessageWindow
         }
         public static FocusableWindows CurrentlyFocused;
 
@@ -32,6 +33,7 @@ namespace ConBox
         public LocationWindow LocationWindow;
         public BindingsWindow BindingsWindow;
         public InventoryWindow InventoryWindow;
+        public MessageWindow MessageWindow;
         public UIManager()
         {
             Init();
@@ -46,6 +48,7 @@ namespace ConBox
             Parameters.WidthOrHeightChanged += UpdateSize;
 
             BindingsWindow = new BindingsWindow(Parameters.BindingsX, Parameters.BindingsY, Parameters.BindingsWidth, Parameters.BindingsHeight, ConWindow.BorderType.Double);
+            MessageWindow = new MessageWindow(Parameters.MessageX, Parameters.MessageY, Parameters.MessageWidth, Parameters.MessageHeight, ConWindow.BorderType.Double);
             StatsWindow = new StatsWindow(Parameters.StatsX, Parameters.StatsY, Parameters.StatsWidth, Parameters.StatsHeight, ConWindow.BorderType.Double);
             LocationWindow = new LocationWindow(Parameters.LocationX, Parameters.LocationY, Parameters.LocationWidth, Parameters.LocationHeight, ConWindow.BorderType.Single);
             TravelWindow = new TravelWindow(Parameters.TravelX, Parameters.TravelY, Parameters.TravelWidth, Parameters.TravelHeight, ConWindow.BorderType.Double);
@@ -61,14 +64,11 @@ namespace ConBox
 
             // Todo: Automatic buffer resizing
 
-            Parameters.Recalculate();
-
-            DrawBindings();
-
             WindowManager();
 
             ProcessKeyboard();
 
+            Parameters.Recalculate();
         }
 
         public void ProcessKeyboard()
@@ -78,9 +78,14 @@ namespace ConBox
 
         public void WindowManager()
         {
-            if(CurrentlyFocused == FocusableWindows.MainWindow) { DrawStats(); DrawLocation(); }
-            if(CurrentlyFocused == FocusableWindows.InventoryWindow) { DrawStats(); DrawInventory(); }
+            // Currently drawn globally
+            DrawBindings();
+            DrawMessageLog();
 
+            // Drawn only based on the specified currently focused window state
+            if (CurrentlyFocused == FocusableWindows.MainWindow) { DrawStats(); DrawLocation(); }
+            if (CurrentlyFocused == FocusableWindows.InventoryWindow) { DrawStats(); DrawInventory(); }
+            if (CurrentlyFocused == FocusableWindows.TravelWindow) { DrawStats(); DrawTravel(); }
         }
 
         public void DrawBindings()
@@ -88,9 +93,15 @@ namespace ConBox
             BindingsWindow.DrawBindings(GameSession.Bindings);
         }
 
+        public void DrawMessageLog()
+        {
+            MessageWindow.Draw();
+        }
+
         public void DrawStats()
         {
             StatsWindow.Draw();
+            StatsWindow.PrintStats(GameSession.Player);
 
         }
 
@@ -104,8 +115,14 @@ namespace ConBox
             InventoryWindow.Draw();
         }
 
-        public void UpdateSize(object sender, EventArgs e)  
+        public void DrawTravel()
         {
+            TravelWindow.Draw();
+        }
+
+        public void UpdateSize(object sender, EventArgs e)
+        {
+
             BindingsWindow.Reposition(Parameters.BindingsX, Parameters.BindingsY);
             BindingsWindow.Resize(Parameters.BindingsWidth, Parameters.BindingsHeight);
 
@@ -114,6 +131,15 @@ namespace ConBox
 
             LocationWindow.Reposition(Parameters.LocationX, Parameters.LocationY);
             LocationWindow.Resize(Parameters.LocationWidth, Parameters.LocationHeight);
+
+            InventoryWindow.Reposition(Parameters.InventoryX, Parameters.InventoryY);
+            InventoryWindow.Resize(Parameters.InventoryWidth, Parameters.InventoryHeight);
+
+            TravelWindow.Reposition(Parameters.TravelX, Parameters.TravelY);
+            TravelWindow.Resize(Parameters.TravelWidth, Parameters.TravelHeight);
+
+            MessageWindow.Reposition(Parameters.MessageX, Parameters.MessageY);
+            MessageWindow.Resize(Parameters.MessageWidth, Parameters.MessageHeight);
         }
     }
 }
