@@ -73,7 +73,7 @@ namespace ConBox
 
         public void ProcessKeyboard()
         {
-            InputManager.ProcessInput();
+            InputManager.ProcessInput(GameSession);
         }
 
         public void WindowManager()
@@ -108,6 +108,7 @@ namespace ConBox
         public void DrawLocation()
         {
             LocationWindow.Draw();
+            LocationWindow.PrintLocation(GameSession.CurrentLocation);
         }
 
         public void DrawInventory()
@@ -118,6 +119,8 @@ namespace ConBox
         public void DrawTravel()
         {
             TravelWindow.Draw();
+            TravelWindow.PrintAvailableLocations(GameSession.CurrentWorld);
+
         }
 
         public void UpdateSize(object sender, EventArgs e)
@@ -141,5 +144,6 @@ namespace ConBox
             MessageWindow.Reposition(Parameters.MessageX, Parameters.MessageY);
             MessageWindow.Resize(Parameters.MessageWidth, Parameters.MessageHeight);
         }
+
     }
 }

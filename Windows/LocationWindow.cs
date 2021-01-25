@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConBox.Models;
 
 namespace ConBox.Windows
 {
@@ -14,6 +15,12 @@ namespace ConBox.Windows
             Width = width;
             Height = height;
             Border = border;
+        }
+
+        public void PrintLocation(Location location)
+        {
+            Print(0, 0, $"-- {location.Name} --", true, ConsoleColor.Blue);
+            Print(0, 1, location.Description, true, ConsoleColor.Yellow);
         }
     }
 }

@@ -153,10 +153,32 @@ namespace ConBox
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
         /// <param name="message">The message to be displayed.</param>
+        /// 
         public void Print(int x, int y, string message)
         {
+
+            Console.SetCursorPosition(X + x + 1, Y + y + 1);
             Console.ForegroundColor = ForegroundColor;
-            Console.SetCursorPosition(x + 1, y + 1);
+            Console.Write(message);
+        }
+
+        /// <summary>
+        /// Print a message to the console window on the specified parameters.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="message">The message to be displayed.</param>
+        /// <param name="centered">Center message along the width of the window.</param>
+        public void Print(int x, int y, string message, bool centered)
+        {
+            if (!centered)
+            {
+                Console.SetCursorPosition(X + x + 1, Y + y + 1);
+            } else
+            {
+                Console.SetCursorPosition((X + x + 1) + Width / 2 - (message.Length) / 2, (Y + y + 1));
+            }
+            Console.ForegroundColor = ForegroundColor;
             Console.Write(message);
         }
 
@@ -176,6 +198,29 @@ namespace ConBox
         }
 
         /// <summary>
+        /// Print a message to the console window on the specified parameters.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="message">The message to be displayed.</param>
+        /// <param name="centered">Center message along the width of the window.</param>
+        /// <param name="foregroundColor">The foreground color to be used for the message.</param>
+        public void Print(int x, int y, string message, bool centered, ConsoleColor foregroundColor)
+        {
+            if (!centered)
+            {
+                Console.SetCursorPosition(X + x + 1, Y + y + 1);
+            }
+            else
+            {
+                Console.SetCursorPosition((X + x + 1) + Width / 2 - (message.Length) / 2, (Y + y + 1));
+            }
+            Console.ForegroundColor = foregroundColor;
+            Console.Write(message);
+            Console.ForegroundColor = ForegroundColor;
+        }
+
+        /// <summary>
         /// Print a message to the console window on the specified parameters using the provided foreground and background color.
         /// </summary>
         /// <param name="x">The x coordinate.</param>
@@ -188,6 +233,32 @@ namespace ConBox
             Console.ForegroundColor = foregroundColor;
             Console.BackgroundColor = backgroundColor;
             Console.SetCursorPosition(x + 1, y + 1);
+            Console.Write(message);
+            Console.ForegroundColor = ForegroundColor;
+            Console.BackgroundColor = BackgroundColor;
+        }
+
+        /// <summary>
+        /// Print a message to the console window on the specified parameters.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="message">The message to be displayed.</param>
+        /// <param name="centered">Center message along the width of the window.</param>
+        /// <param name="foregroundColor">The foreground color to be used for the message.</param>
+        /// <param name="backgroundColor">The background color to be used for the message.</param>
+        public void Print(int x, int y, string message, bool centered, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+        {
+            if (!centered)
+            {
+                Console.SetCursorPosition(X + x + 1, Y + y + 1);
+            }
+            else
+            {
+                Console.SetCursorPosition((X + x + 1) + Width / 2 - (message.Length) / 2, (Y + y + 1));
+            }
+            Console.ForegroundColor = foregroundColor;
+            Console.BackgroundColor = backgroundColor;
             Console.Write(message);
             Console.ForegroundColor = ForegroundColor;
             Console.BackgroundColor = BackgroundColor;

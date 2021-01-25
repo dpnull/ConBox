@@ -27,7 +27,7 @@ namespace ConBox.Windows
             {
                 if (filteredBindings[i].Type == type)
                 {
-                    Print(X, y, filteredBindings[i].PrintBinding());
+                    Print(0, y, filteredBindings[i].PrintBinding());
                 }
 
                 y++;

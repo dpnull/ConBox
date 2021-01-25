@@ -7,6 +7,7 @@ namespace ConBox
     public class InputManager
     {
         public static ConsoleKeyInfo Input;
+        public static int Selection = 0;
 
         public InputManager()
         {
@@ -16,28 +17,49 @@ namespace ConBox
         /// <summary>
         /// Process all input.
         /// </summary>
-        public void ProcessInput()
+        public void ProcessInput(GameSession gameSession)
         {
-            Input = Console.ReadKey(true);
-
-            if (IsKeyPressed("travel"))
+            // Temporary solution for resetting selection index.
+            // Index should automatically revert itself depending on where it is called from.
+            while (true)
             {
-                UIManager.CurrentlyFocused = UIManager.FocusableWindows.TravelWindow;
+                Input = Console.ReadKey(true);
+
+                // Globally available inputs
+                ArrowSelection();
+
+                if (IsKeyPressed("travel"))
+                {
+                    UIManager.CurrentlyFocused = UIManager.FocusableWindows.TravelWindow;
+                    break;
+                }
+
+                if (IsKeyPressed("inventory"))
+                {
+                    UIManager.CurrentlyFocused = UIManager.FocusableWindows.InventoryWindow;
+                    break;
+                }
+
+                // Close currently focused window
+                // Temporary fix
+                if (IsKeyPressed("exit"))
+                {
+                    UIManager.CurrentlyFocused = UIManager.FocusableWindows.MainWindow;
+                    break;
+
+                    // Set Currently Focused as global
+                }
+
+                // Travel window specific bindings
+                if(IsKeyPressed(ConsoleKey.Enter, UIManager.FocusableWindows.TravelWindow))
+                {
+                    gameSession.TravelToXLocation(Selection);
+                    UIManager.CurrentlyFocused = UIManager.FocusableWindows.MainWindow;
+                    break;
+                }
             }
 
-            if (IsKeyPressed("inventory"))
-            {
-                UIManager.CurrentlyFocused = UIManager.FocusableWindows.InventoryWindow;
-            }
 
-            // Close currently focused window
-            // Temporary fix
-            if (IsKeyPressed("exit"))
-            {
-                UIManager.CurrentlyFocused = UIManager.FocusableWindows.MainWindow;
-
-                // Set Currently Focused as global
-            }
         }
 
         /// <summary>
@@ -53,6 +75,31 @@ namespace ConBox
             }
 
             return false;
+        }
+
+        public bool IsKeyPressed(ConsoleKey key, UIManager.FocusableWindows windowType)
+        {
+            if(Input.Key == key && UIManager.CurrentlyFocused == windowType)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ArrowSelection()
+        {
+            if (IsKeyPressed(ConsoleKey.UpArrow, UIManager.FocusableWindows.TravelWindow))
+            {
+                if(Selection > 0)
+                {
+                    Selection--;
+                }
+            }
+            if (IsKeyPressed(ConsoleKey.DownArrow, UIManager.FocusableWindows.TravelWindow))
+            {
+                Selection++;
+            }
         }
     }
 }
