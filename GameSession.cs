@@ -8,6 +8,7 @@ namespace ConBox
 {
     public class GameSession
     {
+
         public Location CurrentLocation { get; set; }
         public World CurrentWorld { get; set; }
 
@@ -35,6 +36,12 @@ namespace ConBox
         public void TravelToXLocation(int x)
         {
             CurrentLocation = CurrentWorld.GetLocation(x, 0);
+            UIManager.MessageWindow.Add($"Travelling to {CurrentWorld.GetLocation(x, 0).Name}...");
+        }
+
+        public void TestLog()
+        {
+            UIManager.MessageWindow.Add("This is a warning message!", Windows.QueueMessage.MessageType.Warning);
         }
     }
 }

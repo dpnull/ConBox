@@ -22,6 +22,7 @@ namespace ConBox
         }
         public static FocusableWindows CurrentlyFocused;
 
+        public static MessageWindow MessageWindow;
 
         public GameSession GameSession;
         public InputManager InputManager;
@@ -33,7 +34,7 @@ namespace ConBox
         public LocationWindow LocationWindow;
         public BindingsWindow BindingsWindow;
         public InventoryWindow InventoryWindow;
-        public MessageWindow MessageWindow;
+        
         public UIManager()
         {
             Init();
@@ -47,14 +48,15 @@ namespace ConBox
 
             Parameters.WidthOrHeightChanged += UpdateSize;
 
-            BindingsWindow = new BindingsWindow(Parameters.BindingsX, Parameters.BindingsY, Parameters.BindingsWidth, Parameters.BindingsHeight, ConWindow.BorderType.Double);
             MessageWindow = new MessageWindow(Parameters.MessageX, Parameters.MessageY, Parameters.MessageWidth, Parameters.MessageHeight, ConWindow.BorderType.Double);
+
+            BindingsWindow = new BindingsWindow(Parameters.BindingsX, Parameters.BindingsY, Parameters.BindingsWidth, Parameters.BindingsHeight, ConWindow.BorderType.Double);
             StatsWindow = new StatsWindow(Parameters.StatsX, Parameters.StatsY, Parameters.StatsWidth, Parameters.StatsHeight, ConWindow.BorderType.Double);
             LocationWindow = new LocationWindow(Parameters.LocationX, Parameters.LocationY, Parameters.LocationWidth, Parameters.LocationHeight, ConWindow.BorderType.Single);
             TravelWindow = new TravelWindow(Parameters.TravelX, Parameters.TravelY, Parameters.TravelWidth, Parameters.TravelHeight, ConWindow.BorderType.Double);
             InventoryWindow = new InventoryWindow(Parameters.InventoryX, Parameters.InventoryY, Parameters.InventoryWidth, Parameters.InventoryHeight, ConWindow.BorderType.Double);
 
-            CurrentlyFocused = FocusableWindows.MainWindow;           
+            CurrentlyFocused = FocusableWindows.MainWindow;
         }
 
         public void Render()
@@ -96,6 +98,7 @@ namespace ConBox
         public void DrawMessageLog()
         {
             MessageWindow.Draw();
+            MessageWindow.PrintLog();
         }
 
         public void DrawStats()

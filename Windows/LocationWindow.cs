@@ -19,8 +19,8 @@ namespace ConBox.Windows
 
         public void PrintLocation(Location location)
         {
-            Print(0, 0, $"-- {location.Name} --", true, ConsoleColor.Blue);
-            Print(0, 1, location.Description, true, ConsoleColor.Yellow);
+            Print(0, 0, $" {location.Name} ", true, ConsoleColor.Black, ConsoleColor.DarkGreen);
+            Print(0, 1, location.Description, true, ConsoleColor.DarkYellow);
         }
     }
 }

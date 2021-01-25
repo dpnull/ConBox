@@ -57,6 +57,12 @@ namespace ConBox
                     UIManager.CurrentlyFocused = UIManager.FocusableWindows.MainWindow;
                     break;
                 }
+
+                if(IsKeyPressed(ConsoleKey.F, UIManager.FocusableWindows.MainWindow))
+                {
+                    gameSession.TestLog();
+                    break;
+                }
             }
 
 

@@ -192,7 +192,7 @@ namespace ConBox
         public void Print(int x, int y, string message, ConsoleColor foregroundColor)
         {
             Console.ForegroundColor = foregroundColor;
-            Console.SetCursorPosition(x + 1, y + 1);       
+            Console.SetCursorPosition(X + x + 1, Y + y + 1);
             Console.Write(message);
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -232,7 +232,7 @@ namespace ConBox
         {
             Console.ForegroundColor = foregroundColor;
             Console.BackgroundColor = backgroundColor;
-            Console.SetCursorPosition(x + 1, y + 1);
+            Console.SetCursorPosition(X + x + 1, Y + y + 1);
             Console.Write(message);
             Console.ForegroundColor = ForegroundColor;
             Console.BackgroundColor = BackgroundColor;
@@ -272,7 +272,7 @@ namespace ConBox
         /// <param name="message"></param>
         public void SlowPrint(int x, int y, string message)
         {
-            Console.SetCursorPosition(x + 1, y + 1);
+            Console.SetCursorPosition(X + x + 1, Y + y + 1);
             Random RNG = new Random(message.GetHashCode());
             int delay = 1; // = 5 + RNG.Next(10);
             for (int i = 0; i < message.Length; i++)
