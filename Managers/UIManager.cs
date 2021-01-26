@@ -59,10 +59,14 @@ namespace ConBox
             CurrentlyFocused = FocusableWindows.MainWindow;
         }
 
+        public void ClearConsole()
+        {
+            BindingsWindow.IsDirty = true;
+        }
+
         public void Render()
         {
-            
-            Console.Clear();
+
 
             // Todo: Automatic buffer resizing
 
@@ -75,7 +79,7 @@ namespace ConBox
 
         public void ProcessKeyboard()
         {
-            InputManager.ProcessInput(GameSession);
+            InputManager.ProcessInput(GameSession, this);
         }
 
         public void WindowManager()
@@ -92,7 +96,9 @@ namespace ConBox
 
         public void DrawBindings()
         {
+            BindingsWindow.Clear();
             BindingsWindow.DrawBindings(GameSession.Bindings);
+
         }
 
         public void DrawMessageLog()

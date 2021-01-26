@@ -17,7 +17,7 @@ namespace ConBox
         /// <summary>
         /// Process all input.
         /// </summary>
-        public void ProcessInput(GameSession gameSession)
+        public void ProcessInput(GameSession gameSession, UIManager ui)
         {
             // Temporary solution for resetting selection index.
             // Index should automatically revert itself depending on where it is called from.
@@ -31,6 +31,7 @@ namespace ConBox
                 if (IsKeyPressed("travel"))
                 {
                     UIManager.CurrentlyFocused = UIManager.FocusableWindows.TravelWindow;
+                    ui.ClearConsole();
                     break;
                 }
 

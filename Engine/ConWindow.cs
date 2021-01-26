@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using ConBox.Windows;
 
 namespace ConBox
 {
@@ -19,6 +20,7 @@ namespace ConBox
         public ConsoleColor BackgroundColor { get; set; }
         public ConsoleColor ForegroundColor { get; set; }
         public ConsoleColor TitleColor { get; set; }
+        public bool IsDirty { get; set; }
 
         /// <summary>
         /// Available border types for the window
@@ -59,6 +61,7 @@ namespace ConBox
             BackgroundColor = backgroundColor;
             ForegroundColor = foregroundColor;
             TitleColor = borderColor;
+            IsDirty = false;
         }
 
         /// <summary>
@@ -86,6 +89,7 @@ namespace ConBox
             ForegroundColor = ConsoleColor.White;
             BorderColor = ConsoleColor.White;
             TitleColor = BorderColor;
+            IsDirty = false;
         }
 
         /// <summary>
@@ -108,6 +112,7 @@ namespace ConBox
             BackgroundColor = backgroundColor;
             ForegroundColor = foregroundColor;
             TitleColor = borderColor;
+            IsDirty = false;
         }
 
         /// <summary>
@@ -127,6 +132,22 @@ namespace ConBox
             ForegroundColor = ConsoleColor.White;
             BorderColor = ConsoleColor.White;
             TitleColor = BorderColor;
+            IsDirty = false;
+        }
+
+        public void Clear()
+        {
+            int x = X;
+            int y = Y;
+            StringBuilder whiteSpace = new StringBuilder();
+            whiteSpace.Append(' ', Width);
+            Console.SetCursorPosition(0, 0);
+            for (int i = 0; i < Height; i++)
+            {
+                Console.SetCursorPosition(x, y);
+                Console.Write(whiteSpace);
+                y++;
+            }
         }
 
         /// <summary>
