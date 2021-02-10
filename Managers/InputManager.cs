@@ -7,8 +7,8 @@ namespace ConBox
     public class InputManager
     {
         public static ConsoleKeyInfo Input;
-        public static int Selection = 0;
-
+        public static int Selection = 1;
+    
         public InputManager()
         {
 
@@ -17,21 +17,23 @@ namespace ConBox
         /// <summary>
         /// Process all input.
         /// </summary>
-        public void ProcessInput(GameSession gameSession, UIManager ui)
+        public void ProcessInput(GameSession gameSession)
         {
             // Temporary solution for resetting selection index.
             // Index should automatically revert itself depending on where it is called from.
+
+            // URGENT TODO: Work out why pressing non-char letters automatically opens up the first window from the first if. Until then, up/down is + / -
             while (true)
             {
                 Input = Console.ReadKey(true);
 
                 // Globally available inputs
-                ArrowSelection();
+                ArrowSelection(UIManager.FocusableWindows.TravelWindow);
+                ArrowSelection(UIManager.FocusableWindows.InventoryWindow);
 
                 if (IsKeyPressed("travel"))
                 {
                     UIManager.CurrentlyFocused = UIManager.FocusableWindows.TravelWindow;
-                    ui.ClearConsole();
                     break;
                 }
 
@@ -40,6 +42,7 @@ namespace ConBox
                     UIManager.CurrentlyFocused = UIManager.FocusableWindows.InventoryWindow;
                     break;
                 }
+
 
                 // Close currently focused window
                 // Temporary fix
@@ -59,13 +62,14 @@ namespace ConBox
                     break;
                 }
 
+                // Test message log
                 if(IsKeyPressed(ConsoleKey.F, UIManager.FocusableWindows.MainWindow))
                 {
                     gameSession.TestLog();
                     break;
                 }
-            }
 
+            }
 
         }
 
@@ -76,7 +80,7 @@ namespace ConBox
         /// <returns></returns>
         public bool IsKeyPressed(string sid)
         {
-            if (Input.KeyChar == GameSession.Bindings.GetKeybind(sid))
+            if (Input.KeyChar == GameSession.Bindings.GetKeybind(sid, UIManager.CurrentlyFocused))
             {
                 return true;
             }
@@ -84,9 +88,9 @@ namespace ConBox
             return false;
         }
 
-        public bool IsKeyPressed(ConsoleKey key, UIManager.FocusableWindows windowType)
+        public bool IsKeyPressed(ConsoleKey key)
         {
-            if(Input.Key == key && UIManager.CurrentlyFocused == windowType)
+            if (Input.Key == key)
             {
                 return true;
             }
@@ -94,18 +98,31 @@ namespace ConBox
             return false;
         }
 
-        public void ArrowSelection()
+        public bool IsKeyPressed(ConsoleKey key, UIManager.FocusableWindows type)
         {
-            if (IsKeyPressed(ConsoleKey.UpArrow, UIManager.FocusableWindows.TravelWindow))
+            if (Input.Key == key && UIManager.CurrentlyFocused == type)
             {
-                if(Selection > 0)
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ArrowSelection(UIManager.FocusableWindows type)
+        {
+            if (UIManager.CurrentlyFocused == type)
+            {
+                if (IsKeyPressed(ConsoleKey.UpArrow))
                 {
-                    Selection--;
+                    if (Selection > 0)
+                    {
+                        Selection--;
+                    }
                 }
-            }
-            if (IsKeyPressed(ConsoleKey.DownArrow, UIManager.FocusableWindows.TravelWindow))
-            {
-                Selection++;
+                if (IsKeyPressed(ConsoleKey.DownArrow))
+                {
+                    Selection++;
+                }
             }
         }
     }

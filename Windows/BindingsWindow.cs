@@ -15,6 +15,7 @@ namespace ConBox.Windows
             Width = width;
             Height = height;
             Border = border;
+            IsDirty = false;
         }
 
         // Show bindings based on the parameters passed

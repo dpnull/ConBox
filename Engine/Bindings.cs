@@ -7,11 +7,28 @@ namespace ConBox
 {
     public class Bindings
     {
+        private bool _isVisible;
+
+        public event EventHandler BindingsUpdated;
+
         public List<Bindings> _bindings = new List<Bindings>();
         public string SID { get; set; }
         public char Keybind { get; set; }
         public string Name { get; set; }
-        public bool IsVisible { get; set; }
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                _isVisible = value;
+                if (BindingsUpdated != null)
+                {
+                    
+                    BindingsUpdated(this, null);
+                }
+
+            }
+        }
         public UIManager.FocusableWindows Type { get; set; }
 
         public void AddBinding(string sid, char keybind, string name, bool isVisible, UIManager.FocusableWindows type)

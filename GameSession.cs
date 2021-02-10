@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ConBox.Models;
 using ConBox.Factory;
+using System.Linq;
 
 namespace ConBox
 {
@@ -27,6 +28,9 @@ namespace ConBox
 
             // New player
             Player = new Player("Dom", 100, 100, 0, 1, 20);
+            Player.AddItemToInventory(ItemFactory.CreateItem(2001));
+            Player.AddItemToInventory(ItemFactory.CreateItem(2002));
+            Player.CurrentWeapon = Player.Inventory.Where(i => i.Type == Item.ItemType.Weapon).FirstOrDefault();
 
             // New world and set default location
             CurrentWorld = worldFactory.CreateWorld();

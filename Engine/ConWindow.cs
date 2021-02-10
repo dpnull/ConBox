@@ -148,7 +148,14 @@ namespace ConBox
                 Console.Write(whiteSpace);
                 y++;
             }
+
         }
+
+        public void ChangeIsDirty(bool value)
+        {
+            IsDirty = value;
+        }
+
 
         /// <summary>
         /// Change the background color of the window.

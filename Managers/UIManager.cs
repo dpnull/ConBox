@@ -35,6 +35,7 @@ namespace ConBox
         public BindingsWindow BindingsWindow;
         public InventoryWindow InventoryWindow;
         
+        private bool _firstFrame = true;
         public UIManager()
         {
             Init();
@@ -59,44 +60,52 @@ namespace ConBox
             CurrentlyFocused = FocusableWindows.MainWindow;
         }
 
-        public void ClearConsole()
-        {
-            BindingsWindow.IsDirty = true;
-        }
-
         public void Render()
         {
-
+            // Draw the first frame
+            
+            if(_firstFrame)
+            {
+                Draw();
+                _firstFrame = false;
+            }
 
             // Todo: Automatic buffer resizing
 
-            WindowManager();
-
             ProcessKeyboard();
 
+            Update();
+
+            Draw();
+        }
+
+        public void Update()
+        {
             Parameters.Recalculate();
         }
 
         public void ProcessKeyboard()
         {
-            InputManager.ProcessInput(GameSession, this);
+            InputManager.ProcessInput(GameSession);
         }
 
-        public void WindowManager()
+        public void Draw()
         {
+            Console.Clear();
+
             // Currently drawn globally
             DrawBindings();
             DrawMessageLog();
 
             // Drawn only based on the specified currently focused window state
             if (CurrentlyFocused == FocusableWindows.MainWindow) { DrawStats(); DrawLocation(); }
-            if (CurrentlyFocused == FocusableWindows.InventoryWindow) { DrawStats(); DrawInventory(); }
-            if (CurrentlyFocused == FocusableWindows.TravelWindow) { DrawStats(); DrawTravel(); }
+            else if (CurrentlyFocused == FocusableWindows.InventoryWindow) { DrawStats(); DrawInventory(); }
+            else if (CurrentlyFocused == FocusableWindows.TravelWindow) { DrawStats(); DrawTravel(); }
         }
 
         public void DrawBindings()
         {
-            BindingsWindow.Clear();
+            
             BindingsWindow.DrawBindings(GameSession.Bindings);
 
         }
@@ -123,6 +132,7 @@ namespace ConBox
         public void DrawInventory()
         {
             InventoryWindow.Draw();
+            InventoryWindow.PrintItems(GameSession.Player);
         }
 
         public void DrawTravel()

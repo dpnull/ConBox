@@ -20,11 +20,11 @@ namespace ConBox.Windows
         public void PrintStats(Player player)
         {
             string stats =
-                $"Name: {player.Name} | " +
-                $"Health: {player.Health} | " +
-                $"Gold: {player.Gold} | " +
-                $"Level: {player.Level} | " +
-                $"Exp: {player.Experience}";
+                $"HP: {player.Health} | " +
+                $"GLD: {player.Gold} | " +
+                $"LV: {player.Level} | " +
+                $"XP: {player.Experience} | " +
+                $"WPN: {player.CurrentWeapon.Name}";
 
             Print(1, 0, stats);
         }
