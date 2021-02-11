@@ -69,6 +69,21 @@ namespace ConBox
                     break;
                 }
 
+                if(IsKeyPressed(ConsoleKey.Oem3))
+                {
+                    if(UIManager.CurrentlyFocused != UIManager.FocusableWindows.DeveloperWindow)
+                    {
+                        UIManager.CurrentlyFocused = UIManager.FocusableWindows.DeveloperWindow;
+                        break;
+                    }
+                    else if (UIManager.CurrentlyFocused == UIManager.FocusableWindows.DeveloperWindow)
+                    {
+                        UIManager.CurrentlyFocused = UIManager.FocusableWindows.MainWindow;
+                        break;
+                    }
+
+                }
+
             }
 
         }

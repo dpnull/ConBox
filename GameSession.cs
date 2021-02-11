@@ -39,8 +39,15 @@ namespace ConBox
 
         public void TravelToXLocation(int x)
         {
-            CurrentLocation = CurrentWorld.GetLocation(x, 0);
-            UIManager.MessageWindow.Add($"Travelling to {CurrentWorld.GetLocation(x, 0).Name}...");
+            if (CurrentLocation != CurrentWorld.GetLocation(x, 0))
+            {
+                CurrentLocation = CurrentWorld.GetLocation(x, 0);
+                UIManager.MessageWindow.Add($"Travelling to {CurrentWorld.GetLocation(x, 0).Name}...");
+                UIManager.DeveloperWindow.Add($"[ {nameof(TravelToXLocation)} ] {nameof(CurrentWorld.GetLocation)} call with {nameof(x)}{x}, {nameof(CurrentLocation)} = ({CurrentLocation.X}, {CurrentLocation.Y})", Windows.QueueMessage.MessageType.Info);
+            } else
+            {
+                UIManager.MessageWindow.Add($"You are already at this location!", Windows.QueueMessage.MessageType.Info);
+            }
         }
 
         public void TestLog()

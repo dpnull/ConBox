@@ -8,6 +8,7 @@ namespace ConBox.Windows
     {
         public enum MessageType
         {
+            Default,
             Info,
             Warning
         }
@@ -24,10 +25,14 @@ namespace ConBox.Windows
 
     public class MessageWindow : ConWindow
     {
+        public ConsoleColor DefaultForegroundColor;
+        public ConsoleColor DefaultBackgroundColor;
+
         public ConsoleColor InfoForegroundColor;
-        public ConsoleColor WarningForegroundColor;
         public ConsoleColor InfoBackgroundColor;
+
         public ConsoleColor WarningBackgroundColor;
+        public ConsoleColor WarningForegroundColor;
 
         public MessageWindow(int x, int y, int width, int height, BorderType border, string title = "Message Log", bool centered = false, bool visible = false)
             : base(title, border, centered, visible)
@@ -38,14 +43,19 @@ namespace ConBox.Windows
             Height = height;
             Border = border;
 
-            InfoForegroundColor = ForegroundColor;
+            DefaultForegroundColor = ForegroundColor;
+            DefaultBackgroundColor = BackgroundColor;
+            InfoForegroundColor = ConsoleColor.DarkYellow;
             InfoBackgroundColor = BackgroundColor;
             WarningForegroundColor = ForegroundColor;
             WarningBackgroundColor = ConsoleColor.DarkYellow;
         }
 
-        public void SetMessageColors(ConsoleColor infoForeground, ConsoleColor infoBackground, ConsoleColor warningForeground, ConsoleColor warningBackground)
+        public void SetMessageColors(ConsoleColor defaultForeground, ConsoleColor defaultBackground, ConsoleColor infoForeground,
+            ConsoleColor infoBackground, ConsoleColor warningForeground, ConsoleColor warningBackground)
         {
+            DefaultBackgroundColor = defaultBackground;
+            DefaultForegroundColor = defaultForeground;
             InfoForegroundColor = infoForeground;
             InfoBackgroundColor = infoBackground;
             WarningForegroundColor = warningForeground;
@@ -56,7 +66,7 @@ namespace ConBox.Windows
         private readonly Queue<QueueMessage> _lines = new Queue<QueueMessage>();
 
         // Define the maximum number of lines to store
-        private static readonly int _maxLines = 6;
+        public int _maxLines = 6;
 
         // Use a Queue to keep track of the lines of text
         // The first line added to the log will also be the first removed
@@ -67,7 +77,7 @@ namespace ConBox.Windows
         /// <param name="message">The message string.</param>
         public void Add(string message)
         {
-            _lines.Enqueue(new QueueMessage(message, QueueMessage.MessageType.Info));
+            _lines.Enqueue(new QueueMessage(message, QueueMessage.MessageType.Default));
 
             // When exceeding the maximum number of lines remove the oldest one.
             if (_lines.Count > _maxLines)
@@ -100,7 +110,11 @@ namespace ConBox.Windows
             QueueMessage[] messages = _lines.ToArray();
             for (int i = 0; i < messages.Length; i++)
             {
-                if(messages[i].Type == QueueMessage.MessageType.Warning)
+                if (messages[i].Type == QueueMessage.MessageType.Default)
+                {
+                    Print(x, y, messages[i].Text, DefaultForegroundColor, DefaultBackgroundColor);
+                }
+                else if (messages[i].Type == QueueMessage.MessageType.Warning)
                 {
                     Print(x, y, messages[i].Text, WarningForegroundColor, WarningBackgroundColor);
                 }
@@ -108,6 +122,7 @@ namespace ConBox.Windows
                 {
                     Print(x, y, messages[i].Text, InfoForegroundColor, InfoBackgroundColor);
                 }
+
                 
                 y++;
             }
@@ -116,6 +131,20 @@ namespace ConBox.Windows
         public void PrintInfo()
         {
 
+        }
+    }
+
+    public class DeveloperWindow : MessageWindow
+    {
+        public DeveloperWindow(int x, int y, int width, int height, BorderType border, int maxLines, string title = " DEV CONSOLE ", bool centered = true, bool visible = false)
+            : base(x, y, width, height, border, title, centered, visible)
+        {
+            _maxLines = maxLines;
+
+            InfoForegroundColor = ConsoleColor.DarkYellow;
+            WarningForegroundColor = ConsoleColor.DarkRed;
+
+            // Perhaps SetMessageColors() ?
         }
     }
 }

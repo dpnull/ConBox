@@ -18,7 +18,8 @@ namespace ConBox
             LocationWindow,
             BindingsWindow,
             InventoryWindow,
-            MessageWindow
+            MessageWindow,
+            DeveloperWindow
         }
         public static FocusableWindows CurrentlyFocused;
 
@@ -34,6 +35,7 @@ namespace ConBox
         public LocationWindow LocationWindow;
         public BindingsWindow BindingsWindow;
         public InventoryWindow InventoryWindow;
+        public static DeveloperWindow DeveloperWindow;
         
         private bool _firstFrame = true;
         public UIManager()
@@ -56,6 +58,10 @@ namespace ConBox
             LocationWindow = new LocationWindow(Parameters.LocationX, Parameters.LocationY, Parameters.LocationWidth, Parameters.LocationHeight, ConWindow.BorderType.Single);
             TravelWindow = new TravelWindow(Parameters.TravelX, Parameters.TravelY, Parameters.TravelWidth, Parameters.TravelHeight, ConWindow.BorderType.Double);
             InventoryWindow = new InventoryWindow(Parameters.InventoryX, Parameters.InventoryY, Parameters.InventoryWidth, Parameters.InventoryHeight, ConWindow.BorderType.Double);
+
+            // dev
+            DeveloperWindow = new DeveloperWindow(Parameters.DeveloperX, Parameters.DeveloperY, Parameters.DeveloperWidth, Parameters.DeveloperHeight, ConWindow.BorderType.Double, Parameters.DeveloperHeight - 2, "DEV CONSOLE", true, false);
+            DeveloperWindow.Add("Developer window successfuly initialized.");
 
             CurrentlyFocused = FocusableWindows.MainWindow;
         }
@@ -94,20 +100,24 @@ namespace ConBox
             Console.Clear();
 
             // Currently drawn globally
-            DrawBindings();
-            DrawMessageLog();
+            // Temporary solution
+            if(CurrentlyFocused != FocusableWindows.DeveloperWindow)
+            {
+                DrawBindings();
+                DrawMessageLog();
+            }
+
 
             // Drawn only based on the specified currently focused window state
             if (CurrentlyFocused == FocusableWindows.MainWindow) { DrawStats(); DrawLocation(); }
             else if (CurrentlyFocused == FocusableWindows.InventoryWindow) { DrawStats(); DrawInventory(); }
             else if (CurrentlyFocused == FocusableWindows.TravelWindow) { DrawStats(); DrawTravel(); }
+            else if (CurrentlyFocused == FocusableWindows.DeveloperWindow) { DrawDevWindow(); }
         }
 
         public void DrawBindings()
-        {
-            
+        {          
             BindingsWindow.DrawBindings(GameSession.Bindings);
-
         }
 
         public void DrawMessageLog()
@@ -164,5 +174,11 @@ namespace ConBox
             MessageWindow.Resize(Parameters.MessageWidth, Parameters.MessageHeight);
         }
 
+
+        public void DrawDevWindow()
+        {
+            DeveloperWindow.Draw();
+            DeveloperWindow.PrintLog();
+        }
     }
 }

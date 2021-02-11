@@ -70,6 +70,11 @@ namespace ConBox.Windows
         public int MessageWidth;
         public int MessageHeight;
 
+        public int DeveloperX;
+        public int DeveloperY;
+        public int DeveloperWidth;
+        public int DeveloperHeight;
+
         public Parameters()
         {
             Recalculate();
@@ -109,6 +114,11 @@ namespace ConBox.Windows
             MessageHeight = 8;
             MessageX = 0;
             MessageY = ConsoleHeight - MessageHeight;
+
+            DeveloperX = 0;
+            DeveloperY = 0;
+            DeveloperWidth = ConsoleWidth;
+            DeveloperHeight = ConsoleHeight;
         }
 
     }
